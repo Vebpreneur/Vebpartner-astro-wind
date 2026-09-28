@@ -1,0 +1,44 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import VebpartnerContentLayout from '~/layouts/VebpartnerContentLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import QuickFacts from '~/components/vebpartner/QuickFacts.astro';
+import SourceCard from '~/components/vebpartner/SourceCard.astro';
+import LastVerified from '~/components/vebpartner/LastVerified.astro';
+import RelatedContent from '~/components/vebpartner/RelatedContent.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('start', ({ data }) => data.status === 'published' && !data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<'start'> }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const canonicalPath = `/start/${d.slug}`;
+const breadcrumbs = [{ label: 'Vebpartner', href: '/' }, { label: 'Start', href: '/start/' }, { label: d.provider }];
+const facts = [
+  { label: 'Provider', value: d.provider },
+  { label: 'Model', value: d.businessModel },
+  { label: 'White label', value: d.whiteLabel ? 'Yes' : 'No' },
+  { label: 'Own pricing', value: d.ownPricing ? 'Yes' : 'No' },
+  { label: 'Customer relationship', value: d.customerRelationship ? 'Partner managed' : 'Provider managed' },
+  { label: 'Hosting & updates', value: d.providerManagedHosting && d.providerManagedUpdates ? 'Provider managed' : 'Check provider terms' },
+];
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'WebPage',
+  name: d.title, description: d.description, url: new URL(canonicalPath, 'https://vebpartner.se').toString(),
+  datePublished: d.publishedAt, dateModified: d.updatedAt ?? d.lastVerifiedAt,
+  about: { '@type': 'Organization', name: d.provider, url: d.sourceUrl },
+};
+---
+<VebpartnerContentLayout vertical="START" title={d.seoTitle ?? d.title} description={d.seoDescription ?? d.description} canonicalPath={canonicalPath} breadcrumbs={breadcrumbs} structuredData={structuredData}>
+  <HeroText badge={d.category} tagline="Business opportunity" title={d.title} subtitle={d.excerpt} callToAction={{ text: 'Visit official partner program', href: d.sourceUrl, target: '_blank', icon: 'tabler:external-link' }} />
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 pb-16">
+    <QuickFacts facts={facts} />
+    <article class="prose prose-lg dark:prose-invert mx-auto mt-10 max-w-3xl prose-headings:font-heading prose-a:text-primary"><Content /></article>
+    <div class="mt-10"><SourceCard label={d.sourceLabel} url={d.sourceUrl} /><div class="mt-4"><LastVerified date={d.lastVerifiedAt} /></div></div>
+    <RelatedContent links={d.related} />
+  </div>
+</VebpartnerContentLayout>
