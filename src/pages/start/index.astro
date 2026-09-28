@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import VebpartnerContentLayout from '~/layouts/VebpartnerContentLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+const entries = (await getCollection('start', ({ data }) => data.status === 'published' && !data.draft)).sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+<VebpartnerContentLayout vertical="START" title="Vebpartner Start — Business Opportunities" description="Explore practical business opportunities, white-label platforms, reseller models and partner programs." canonicalPath="/start/" breadcrumbs={[{ label: 'Vebpartner', href: '/' }, { label: 'Start' }]}>
+  <HeroText tagline="Vebpartner Start" title="Start with existing infrastructure" subtitle="Explore white-label platforms, reseller models and partner programs that can shorten the path from idea to commercial offer." />
+  <section class="mx-auto max-w-5xl px-4 sm:px-6 pb-16"><div class="grid gap-4 sm:grid-cols-2">{entries.map(({ data }) => <a href={`/start/${data.slug}/`} class="rounded-2xl border border-gray-200 p-6 transition hover:border-primary/40 hover:shadow-sm dark:border-slate-800"><p class="text-xs font-bold uppercase tracking-wide text-primary">{data.category}</p><h2 class="mt-2 text-xl font-bold text-heading">{data.title}</h2><p class="mt-2 text-sm text-muted">{data.excerpt}</p><span class="mt-4 inline-block font-semibold text-primary">Explore opportunity →</span></a>)}</div></section>
+</VebpartnerContentLayout>
