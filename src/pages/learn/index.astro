@@ -1,7 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
-import VebpartnerContentLayout from '~/layouts/VebpartnerContentLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
 const entries = await getCollection('learn', ({ data }) => data.status === 'published' && !data.draft);
+const items = entries.map(({ data }) => ({ title: data.title, description: data.excerpt, icon: 'tabler:school', callToAction: { text: 'Explore learning path', href: `/learn/${data.slug}/` } }));
+const metadata = { title: 'Vebpartner Learn', description: 'Structured learning paths, certifications and practical educational resources.', canonical: '/learn/' };
 ---
-<VebpartnerContentLayout vertical="LEARN" title="Vebpartner Learn" description="Structured learning paths, certifications and practical educational resources." canonicalPath="/learn/" breadcrumbs={[{ label: 'Vebpartner', href: '/' }, { label: 'Learn' }]}><HeroText tagline="Vebpartner Learn" title="Learn skills with a clear path" subtitle="Structured learning paths, certifications and practical resources selected for real-world utility." /><section class="mx-auto max-w-5xl px-4 sm:px-6 pb-16">{entries.length === 0 ? <p class="rounded-2xl border border-dashed border-gray-300 p-8 text-center text-muted dark:border-slate-700">Curated LEARN resources are being prepared.</p> : <ul>{entries.map(({ data }) => <li>{data.title}</li>)}</ul>}</section></VebpartnerContentLayout>
+<PageLayout metadata={metadata}>
+  <Hero tagline="Vebpartner Learn" title="Learn skills with a clear path" subtitle="Structured learning paths, certifications and practical resources selected for real-world utility." />
+  {items.length > 0 && <Features tagline="Learning paths" title="Explore learning resources" columns={2} items={items} />}
+</PageLayout>
