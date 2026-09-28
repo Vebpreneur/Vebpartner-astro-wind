@@ -19,6 +19,9 @@ interface Props {
 const { entry } = Astro.props;
 const d = entry.data;
 const canonicalPath = `/start/${d.slug}`;
+const providerHost = new URL(d.sourceUrl).hostname;
+const providerFavicon = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(providerHost)}&sz=32`;
+const faviconHtml = `<img src="${providerFavicon}" alt="" width="18" height="18" class="inline-block align-[-3px] mr-2 rounded-sm" loading="lazy" referrerpolicy="no-referrer" />`;
 
 const metadata = {
   title: d.seoTitle ?? d.title,
@@ -92,7 +95,7 @@ const structuredData = {
     actions={[
       {
         variant: 'primary',
-        text: 'Official partner program',
+        text: `${faviconHtml}Official partner program`,
         href: d.sourceUrl,
         target: '_blank',
         icon: 'tabler:external-link',
@@ -190,7 +193,7 @@ const structuredData = {
     actions={[
       {
         variant: 'primary',
-        text: d.sourceLabel,
+        text: `${faviconHtml}${d.sourceLabel}`,
         href: d.sourceUrl,
         target: '_blank',
         icon: 'tabler:external-link',
