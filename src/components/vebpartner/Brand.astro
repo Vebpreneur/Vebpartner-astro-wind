@@ -1,9 +1,0 @@
----
-export type Vertical = 'START' | 'BUILD' | 'SERVICES' | 'LEARN' | 'TOOLS';
-export interface Props { vertical: Vertical; href?: string }
-const { vertical, href = '/' } = Astro.props;
----
-<a href={href} class="inline-flex items-start gap-1.5 font-heading font-bold tracking-tight text-heading no-underline" aria-label={`Vebpartner ${vertical}`}>
-  <span class="text-2xl sm:text-3xl">Vebpartner</span>
-  <span class="mt-0.5 text-[0.65rem] sm:text-xs font-semibold tracking-[0.16em] text-primary">{vertical}</span>
-</a>
