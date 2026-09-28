@@ -1,0 +1,7 @@
+---
+import { getCollection } from 'astro:content';
+import VebpartnerContentLayout from '~/layouts/VebpartnerContentLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+const entries = await getCollection('build', ({ data }) => data.status === 'published' && !data.draft);
+---
+<VebpartnerContentLayout vertical="BUILD" title="Vebpartner Build" description="Technical resources, APIs, infrastructure and building blocks for digital products." canonicalPath="/build/" breadcrumbs={[{ label: 'Vebpartner', href: '/' }, { label: 'Build' }]}><HeroText tagline="Vebpartner Build" title="Build with proven infrastructure" subtitle="Technical resources, APIs and building blocks for creating digital products." /><section class="mx-auto max-w-5xl px-4 sm:px-6 pb-16">{entries.length === 0 ? <p class="rounded-2xl border border-dashed border-gray-300 p-8 text-center text-muted dark:border-slate-700">Curated BUILD resources are being prepared.</p> : <ul>{entries.map(({ data }) => <li><a href={`/build/${data.slug}/`}>{data.title}</a></li>)}</ul>}</section></VebpartnerContentLayout>
