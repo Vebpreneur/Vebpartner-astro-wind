@@ -1,6 +1,0 @@
----
-export interface RelatedLink { title: string; href: string }
-export interface Props { links?: RelatedLink[] }
-const { links = [] } = Astro.props;
----
-{links.length > 0 && <section aria-labelledby="related-title" class="mt-12"><h2 id="related-title" class="text-2xl font-bold text-heading">Related on Vebpartner</h2><div class="mt-5 grid gap-4 sm:grid-cols-2">{links.map((link) => <a href={link.href} class="rounded-xl border border-gray-200 p-5 font-semibold text-heading transition hover:border-primary/40 hover:text-primary dark:border-slate-800">{link.title} →</a>)}</div></section>}
