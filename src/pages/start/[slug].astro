@@ -1,44 +1,201 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
-import VebpartnerContentLayout from '~/layouts/VebpartnerContentLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import QuickFacts from '~/components/vebpartner/QuickFacts.astro';
-import SourceCard from '~/components/vebpartner/SourceCard.astro';
-import LastVerified from '~/components/vebpartner/LastVerified.astro';
-import RelatedContent from '~/components/vebpartner/RelatedContent.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Content from '~/components/widgets/Content.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('start', ({ data }) => data.status === 'published' && !data.draft);
   return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
 }
 
-interface Props { entry: CollectionEntry<'start'> }
+interface Props {
+  entry: CollectionEntry<'start'>;
+}
+
 const { entry } = Astro.props;
-const { Content } = await render(entry);
 const d = entry.data;
 const canonicalPath = `/start/${d.slug}`;
-const breadcrumbs = [{ label: 'Vebpartner', href: '/' }, { label: 'Start', href: '/start/' }, { label: d.provider }];
+
+const metadata = {
+  title: d.seoTitle ?? d.title,
+  description: d.seoDescription ?? d.description,
+  canonical: canonicalPath,
+  openGraph: { type: 'website' },
+};
+
 const facts = [
-  { label: 'Provider', value: d.provider },
-  { label: 'Model', value: d.businessModel },
-  { label: 'White label', value: d.whiteLabel ? 'Yes' : 'No' },
-  { label: 'Own pricing', value: d.ownPricing ? 'Yes' : 'No' },
-  { label: 'Customer relationship', value: d.customerRelationship ? 'Partner managed' : 'Provider managed' },
-  { label: 'Hosting & updates', value: d.providerManagedHosting && d.providerManagedUpdates ? 'Provider managed' : 'Check provider terms' },
+  { title: 'Provider', description: d.provider, icon: 'tabler:building-store' },
+  { title: 'Business model', description: d.businessModel, icon: 'tabler:briefcase' },
+  { title: 'White label', description: d.whiteLabel ? 'Yes' : 'No', icon: 'tabler:tag' },
+  { title: 'Own pricing', description: d.ownPricing ? 'Yes' : 'No', icon: 'tabler:currency-dollar' },
+  {
+    title: 'Customer relationship',
+    description: d.customerRelationship ? 'Partner managed' : 'Provider managed',
+    icon: 'tabler:users',
+  },
+  {
+    title: 'Hosting & updates',
+    description: d.providerManagedHosting && d.providerManagedUpdates ? 'Provider managed' : 'Check current terms',
+    icon: 'tabler:cloud-check',
+  },
 ];
+
+const modelItems = [
+  {
+    title: 'Sell under your own brand',
+    description: 'The partner model is designed for businesses that want to take a POS and business-management offer to market under their own identity.',
+    icon: 'tabler:brand-appstore',
+  },
+  {
+    title: 'Control your pricing',
+    description: 'Partners can set their own customer pricing and build their own commercial model around the underlying platform.',
+    icon: 'tabler:receipt',
+  },
+  {
+    title: 'Own the customer relationship',
+    description: 'The commercial relationship remains with the partner while PosBytz supplies the underlying platform.',
+    icon: 'tabler:users-group',
+  },
+  {
+    title: 'Provider-managed infrastructure',
+    description: 'Hosting and product updates are handled by the underlying provider, reducing the infrastructure a partner needs to operate.',
+    icon: 'tabler:server',
+  },
+];
+
 const structuredData = {
-  '@context': 'https://schema.org', '@type': 'WebPage',
-  name: d.title, description: d.description, url: new URL(canonicalPath, 'https://vebpartner.se').toString(),
-  datePublished: d.publishedAt, dateModified: d.updatedAt ?? d.lastVerifiedAt,
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: d.title,
+  description: d.description,
+  url: new URL(canonicalPath, 'https://vebpartner.se').toString(),
+  datePublished: d.publishedAt,
+  dateModified: d.updatedAt ?? d.lastVerifiedAt,
   about: { '@type': 'Organization', name: d.provider, url: d.sourceUrl },
 };
 ---
-<VebpartnerContentLayout vertical="START" title={d.seoTitle ?? d.title} description={d.seoDescription ?? d.description} canonicalPath={canonicalPath} breadcrumbs={breadcrumbs} structuredData={structuredData}>
-  <HeroText badge={d.category} tagline="Business opportunity" title={d.title} subtitle={d.excerpt} callToAction={{ text: 'Visit official partner program', href: d.sourceUrl, target: '_blank', icon: 'tabler:external-link' }} />
-  <div class="mx-auto max-w-5xl px-4 sm:px-6 pb-16">
-    <QuickFacts facts={facts} />
-    <article class="prose prose-lg dark:prose-invert mx-auto mt-10 max-w-3xl prose-headings:font-heading prose-a:text-primary"><Content /></article>
-    <div class="mt-10"><SourceCard label={d.sourceLabel} url={d.sourceUrl} /><div class="mt-4"><LastVerified date={d.lastVerifiedAt} /></div></div>
-    <RelatedContent links={d.related} />
-  </div>
-</VebpartnerContentLayout>
+
+<PageLayout metadata={metadata}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </Fragment>
+
+  <Hero
+    badge={d.category}
+    tagline="Vebpartner Start"
+    title={d.title}
+    subtitle={d.excerpt}
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Official partner program',
+        href: d.sourceUrl,
+        target: '_blank',
+        icon: 'tabler:external-link',
+      },
+      { text: 'Explore the model', href: '#opportunity' },
+    ]}
+  />
+
+  <Features
+    id="facts"
+    tagline="Quick facts"
+    title="Opportunity at a glance"
+    subtitle={`Key characteristics of the ${d.provider} partner model.`}
+    columns={3}
+    items={facts}
+  />
+
+  <Content
+    id="opportunity"
+    tagline="The opportunity"
+    title="Launch the offer without building the core platform"
+    items={[
+      {
+        title: 'Focus on distribution',
+        description: 'Build positioning, sales and customer relationships instead of developing the entire POS stack internally.',
+      },
+      {
+        title: 'Create recurring software revenue',
+        description: 'The model can support recurring customer revenue while the provider operates the underlying product infrastructure.',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <p>
+        PosBytz offers a partner model for businesses that want to sell a POS and business-management platform under their own brand. The technology layer and the commercial layer are separated: PosBytz provides the hosted platform while the partner focuses on the market and its customers.
+      </p>
+    </Fragment>
+  </Content>
+
+  <Features
+    tagline="Partner model"
+    title="What the model is designed to provide"
+    subtitle="The commercial layer stays with the partner while the underlying product is supplied by PosBytz."
+    columns={2}
+    items={modelItems}
+  />
+
+  <Steps
+    tagline="How it works"
+    title="From partner program to customer offer"
+    items={[
+      {
+        title: 'Step 1: <span class="font-medium">Review the official program</span>',
+        description: 'Verify the current partner terms, product scope and eligibility directly with PosBytz.',
+        icon: 'tabler:file-search',
+      },
+      {
+        title: 'Step 2: <span class="font-medium">Define your market</span>',
+        description: 'Choose the merchant segment, positioning and commercial model you intend to own.',
+        icon: 'tabler:target-arrow',
+      },
+      {
+        title: 'Step 3: <span class="font-medium">Brand and price the offer</span>',
+        description: 'Use the white-label model to create the customer-facing proposition under your own brand.',
+        icon: 'tabler:tag',
+      },
+      {
+        title: 'Step 4: <span class="font-medium">Build the customer base</span>',
+        description: 'Focus operational effort on distribution and customer relationships while the platform provider handles its infrastructure.',
+        icon: 'tabler:users-plus',
+      },
+    ]}
+  />
+
+  <Content
+    tagline="Who it may suit"
+    title="A model for businesses with distribution or a route to market"
+    items={[
+      { title: 'SaaS operators', description: 'Operators looking to add a branded POS or business-software offer.' },
+      { title: 'IT providers', description: 'Providers already serving merchants or small and medium-sized businesses.' },
+      { title: 'Digital agencies', description: 'Agencies that can package software together with existing digital services.' },
+      { title: 'Entrepreneurs', description: 'Operators who can build distribution without first developing a complete software platform.' },
+    ]}
+  >
+    <Fragment slot="content">
+      <p>
+        Relevance depends on your market, customer acquisition capability and the provider's current terms. Vebpartner does not operate the PosBytz program and does not replace the provider's official information.
+      </p>
+    </Fragment>
+  </Content>
+
+  <CallToAction
+    title="Review the current PosBytz partner program"
+    subtitle={`Official source · Last verified ${d.lastVerifiedAt}`}
+    actions={[
+      {
+        variant: 'primary',
+        text: d.sourceLabel,
+        href: d.sourceUrl,
+        target: '_blank',
+        icon: 'tabler:external-link',
+      },
+      { text: 'Back to Vebpartner Start', href: '/start/' },
+    ]}
+  />
+</PageLayout>
