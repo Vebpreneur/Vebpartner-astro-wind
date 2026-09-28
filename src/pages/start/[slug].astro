@@ -18,7 +18,6 @@ const d = entry.data;
 const canonicalPath = `/start/${d.slug}`;
 const providerOrigin = new URL(d.sourceUrl).origin;
 const providerFavicon = `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(providerOrigin)}&sz=128`;
-const providerLogoHtml = `<a href="${d.sourceUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open ${d.provider} official partner program" class="inline-flex mb-6 rounded-xl p-2 transition-transform hover:scale-105"><img src="${providerFavicon}" alt="${d.provider} logo" width="96" height="96" class="h-20 w-20 rounded-2xl object-contain md:h-24 md:w-24" loading="eager" referrerpolicy="no-referrer" /></a>`;
 
 const metadata = { title: d.seoTitle ?? d.title, description: d.seoDescription ?? d.description, canonical: canonicalPath, openGraph: { type: 'website' } };
 const facts = [
@@ -39,7 +38,7 @@ const structuredData = { '@context': 'https://schema.org', '@type': 'WebPage', n
 <PageLayout metadata={metadata}>
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(structuredData)} /></Fragment>
 
-  <Hero tagline="Vebpartner Start" title={d.title} subtitle={d.excerpt} content={providerLogoHtml} actions={[
+  <Hero tagline="Vebpartner Start" title={d.title} subtitle={d.excerpt} actions={[
     { variant: 'primary', text: 'Official partner program', href: d.sourceUrl, target: '_blank', icon: 'tabler:external-link' },
     { text: 'Explore opportunity', href: '#opportunity' },
   ]} />
@@ -47,7 +46,7 @@ const structuredData = { '@context': 'https://schema.org', '@type': 'WebPage', n
   <Features id="facts" tagline="Business model" title="A white-label route to market" subtitle="The commercial layer stays with you while the underlying product infrastructure is supplied by PosBytz." columns={4} items={facts} />
 
   <Content id="opportunity" tagline="The opportunity" title="Build distribution instead of rebuilding the software" items={[
-    { title: 'Focus on the market', description: 'Put effort into positioning, sales and customer acquisition rather than developing the entire POS stack.' },
+    { title: 'Focus on the market', description: 'Put effort into positioning, sales and customer acquisition rather than developing the entire POS stack internally.' },
     { title: 'Create recurring software revenue', description: 'Package the platform into your own customer offer and build recurring relationships around it.' },
   ]}>
     <Fragment slot="content"><p>PosBytz offers a partner model for businesses that want to sell a POS and business-management platform under their own brand. PosBytz provides the hosted technology layer while the partner focuses on its market, proposition and customers.</p></Fragment>
