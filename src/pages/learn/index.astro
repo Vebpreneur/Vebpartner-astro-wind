@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+const entries = await getCollection('learn', ({ data }) => data.status === 'published' && !data.draft);
+const items = entries.map(({ data }) => ({ title: data.title, description: data.excerpt, icon: 'tabler:school', callToAction: { text: 'Explore learning path', href: `/learn/${data.slug}/` } }));
+const metadata = { title: 'Vebpartner Learn', description: 'Structured learning paths, certifications and practical educational resources.', canonical: '/learn/' };
+---
+<PageLayout metadata={metadata}>
+  <Hero tagline="Vebpartner Learn" title="Learn skills with a clear path" subtitle="Structured learning paths, certifications and practical resources selected for real-world utility." />
+  {items.length > 0 && <Features tagline="Learning paths" title="Explore learning resources" columns={2} items={items} />}
+</PageLayout>

@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+const entries = await getCollection('build', ({ data }) => data.status === 'published' && !data.draft);
+const items = entries.map(({ data }) => ({ title: data.title, description: data.excerpt, icon: 'tabler:code', callToAction: { text: 'Explore resource', href: `/build/${data.slug}/` } }));
+const metadata = { title: 'Vebpartner Build', description: 'Technical resources, APIs, infrastructure and building blocks for digital products.', canonical: '/build/' };
+---
+<PageLayout metadata={metadata}>
+  <Hero tagline="Vebpartner Build" title="Build with proven infrastructure" subtitle="Technical resources, APIs and building blocks for creating digital products." />
+  {items.length > 0 && <Features tagline="Build resources" title="Explore resources" columns={2} items={items} />}
+</PageLayout>

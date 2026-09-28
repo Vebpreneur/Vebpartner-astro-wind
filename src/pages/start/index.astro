@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+
+const entries = (await getCollection('start', ({ data }) => data.status === 'published' && !data.draft)).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title)
+);
+
+const metadata = {
+  title: 'Vebpartner Start — Business Opportunities',
+  description: 'Explore practical business opportunities, white-label platforms, reseller models and partner programs.',
+  canonical: '/start/',
+};
+
+const opportunities = entries.map(({ data }) => ({
+  title: data.title,
+  description: data.excerpt,
+  icon: 'tabler:briefcase',
+  callToAction: { text: 'Explore opportunity', href: `/start/${data.slug}/` },
+}));
+---
+
+<PageLayout metadata={metadata}>
+  <Hero
+    tagline="Vebpartner Start"
+    title="Start with existing infrastructure"
+    subtitle="Explore white-label platforms, reseller models and partner programs that can shorten the path from idea to commercial offer."
+  />
+
+  <Features
+    tagline="Business opportunities"
+    title="Explore opportunities"
+    subtitle="Each opportunity links to a focused Vebpartner page and its official source."
+    columns={2}
+    items={opportunities}
+  />
+</PageLayout>

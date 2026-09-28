@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+const entries = await getCollection('tools', ({ data }) => data.status === 'published' && !data.draft);
+const items = entries.map(({ data }) => ({ title: data.title, description: data.excerpt, icon: 'tabler:tool', callToAction: { text: 'Explore tool', href: `/tools/${data.slug}/` } }));
+const metadata = { title: 'Vebpartner Tools', description: 'Useful digital tools and utilities selected for practical business and technical work.', canonical: '/tools/' };
+---
+<PageLayout metadata={metadata}>
+  <Hero tagline="Vebpartner Tools" title="Useful tools, without the noise" subtitle="A practical collection of digital tools and utilities for business and technical work." />
+  {items.length > 0 && <Features tagline="Tools" title="Explore tools" columns={2} items={items} />}
+</PageLayout>

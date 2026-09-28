@@ -1,0 +1,188 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import SocialProof from '~/components/widgets/SocialProof.astro';
+import Note from '~/components/widgets/Note.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Bento from '~/components/widgets/Bento.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import FeatureTabs from '~/components/widgets/FeatureTabs.astro';
+import Content from '~/components/widgets/Content.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+import Timeline from '~/components/widgets/Timeline.astro';
+import Integrations from '~/components/widgets/Integrations.astro';
+import Comparison from '~/components/widgets/Comparison.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import Projects from '~/components/widgets/Projects.astro';
+import Gallery from '~/components/widgets/Gallery.astro';
+import Quote from '~/components/widgets/Quote.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import QuickStart from '~/components/widgets/QuickStart.astro';
+import Newsletter from '~/components/widgets/Newsletter.astro';
+import Contact from '~/components/widgets/Contact.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import StickyCTA from '~/components/widgets/StickyCTA.astro';
+
+const metadata = {
+  title: 'Vebpartner START — AstroWind Component Lab',
+  description: 'Private design experiment showing AstroWind widgets composed for a Vebpartner business-opportunity page.',
+  robots: { index: false, follow: false },
+};
+
+const imgA = 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=80';
+const imgB = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80';
+const imgC = 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=80';
+---
+
+<Layout metadata={metadata}>
+  <Hero2
+    tagline="Vebpartner Start · Component Lab"
+    title="One opportunity page. Every useful AstroWind building block."
+    subtitle="This is a visual experiment, not a production template. Demo figures, pricing and testimonials below are explicitly illustrative."
+    actions={[{ variant: 'primary', text: 'Explore components', href: '#signals' }, { text: 'Back to PosBytz', href: '/start/posbytz/' }]}
+    image={{ src: imgA, alt: 'Business team discussing a commercial opportunity' }}
+  />
+
+  <SocialProof id="signals" items={[
+    { value: 'White label', label: 'business model', icon: 'tabler:tag' },
+    { value: 'Recurring', label: 'revenue potential', icon: 'tabler:repeat' },
+    { value: 'Provider hosted', label: 'infrastructure', icon: 'tabler:cloud' },
+    { value: 'Own brand', label: 'customer relationship', icon: 'tabler:users' },
+  ]} />
+
+  <Note variant="warning" title="Component lab:" description="All numbers, prices, testimonials and commercial examples on this page are demonstration data only." />
+
+  <Stats tagline="Stats" title="Large-number visualisation" subtitle="Useful when a source gives us genuine quantitative data." countUp stats={[
+    { amount: '24h', title: 'Example setup', icon: 'tabler:clock' },
+    { amount: '100%', title: 'Example white label', icon: 'tabler:tag' },
+    { amount: '3', title: 'Example revenue layers', icon: 'tabler:chart-bar' },
+    { amount: '0', title: 'Example servers owned', icon: 'tabler:server' },
+  ]} />
+
+  <Bento tagline="Bento" title="A stronger way to explain the opportunity" subtitle="Asymmetric cards create hierarchy without inventing a new design system." columns={3} items={[
+    { title: 'Own the commercial layer', description: 'Brand, positioning, pricing and customer relationship can sit with the partner.', icon: 'tabler:crown', span: 2 },
+    { title: 'Existing infrastructure', description: 'Use an established platform rather than rebuilding the core product.', icon: 'tabler:server' },
+    { title: 'Distribution first', description: 'Put scarce effort into market access and customer acquisition.', icon: 'tabler:route' },
+    { title: 'Recurring model', description: 'Where terms support it, software relationships can create repeat revenue.', icon: 'tabler:repeat' },
+    { title: 'Source-backed', description: 'The production version only publishes claims supported by official sources.', icon: 'tabler:shield-check' },
+  ]} />
+
+  <Features tagline="Features" title="Classic icon-and-text grid" columns={2} items={[
+    { title: 'White-label capability', description: 'Simple factual feature presentation.', icon: 'tabler:tag' },
+    { title: 'Own pricing', description: 'Useful for compact commercial facts.', icon: 'tabler:currency-dollar' },
+    { title: 'Customer ownership', description: 'Keeps the important control point visible.', icon: 'tabler:users' },
+    { title: 'Provider operations', description: 'Separates what the partner does from what the supplier does.', icon: 'tabler:settings' },
+  ]} />
+
+  <Features2 tagline="Features2" title="Clickable opportunity cards" columns={3} items={[
+    { title: 'START', description: 'Partner programs and business opportunities.', icon: 'tabler:rocket', href: '/start/' },
+    { title: 'BUILD', description: 'Infrastructure, APIs and product building blocks.', icon: 'tabler:blocks', href: '/build/' },
+    { title: 'LEARN', description: 'Learning paths and certifications.', icon: 'tabler:school', href: '/learn/' },
+  ]} />
+
+  <Features3 tagline="Features3" title="Compact facts with a visual" columns={3} image={{ src: imgB, alt: 'Team planning a go-to-market strategy' }} items={[
+    { title: 'Supply exists', description: 'The product already exists.', icon: 'tabler:box' },
+    { title: 'Demand exists', description: 'Businesses already buy the category.', icon: 'tabler:users' },
+    { title: 'Missing layer', description: 'Distribution can become the controllable position.', icon: 'tabler:arrows-exchange' },
+  ]} />
+
+  <FeatureTabs id="tabs" tagline="FeatureTabs" title="Interactive explanation without a long wall of text" items={[
+    { title: 'Discover', description: 'Find a credible underlying supplier or platform.', icon: 'tabler:search', image: { src: imgA, alt: 'Business discovery' } },
+    { title: 'Package', description: 'Turn the underlying capability into a focused market offer.', icon: 'tabler:package', image: { src: imgB, alt: 'Packaging an offer' } },
+    { title: 'Distribute', description: 'Own the route to market and customer relationship.', icon: 'tabler:route', image: { src: imgC, alt: 'Distribution and teamwork' } },
+  ]} />
+
+  <Content tagline="Content" title="Long-form explanation with visual balance" image={{ src: imgC, alt: 'Team collaborating around a table', aspect: '4/3' }} items={[
+    { title: 'Asset', description: 'An existing platform, capability or partner program.' },
+    { title: 'Control point', description: 'The relationship, contract, routing or distribution layer.' },
+    { title: 'Economics', description: 'Recurring fee, spread, revenue share or another documented model.' },
+  ]}>
+    <Fragment slot="content"><p>The Content widget is useful when an opportunity needs context before the reader reaches facts, steps or a comparison.</p></Fragment>
+  </Content>
+
+  <Steps tagline="Steps" title="Vertical process" items={[
+    { title: 'Verify the supplier', description: 'Check current official terms.', icon: 'tabler:shield-check' },
+    { title: 'Choose the market', description: 'Define a narrow route to demand.', icon: 'tabler:target' },
+    { title: 'Package the offer', description: 'Create positioning and commercial terms.', icon: 'tabler:package' },
+    { title: 'Distribute', description: 'Acquire customers and retain the relationship.', icon: 'tabler:route' },
+  ]} />
+
+  <Steps2 tagline="Steps2" title="Horizontal alternative" subtitle="A different native AstroWind treatment for the same kind of process." items={[
+    { title: 'Source', description: 'Start with existing supply.' },
+    { title: 'Control', description: 'Secure the relationship or distribution layer.' },
+    { title: 'Scale', description: 'Automate repeatable delivery and acquisition.' },
+  ]} />
+
+  <Timeline tagline="Timeline" title="Roadmap / lifecycle visualisation" layout="alternate" items={[
+    { date: '01', title: 'Validate', description: 'Confirm source, demand and terms.', icon: 'tabler:search' },
+    { date: '02', title: 'Launch', description: 'Publish and distribute the first offer.', icon: 'tabler:rocket', highlight: true },
+    { date: '03', title: 'Measure', description: 'Track traffic, clicks and commercial outcomes.', icon: 'tabler:chart-line' },
+    { date: '04', title: 'Scale', description: 'Only multiply what has evidence behind it.', icon: 'tabler:arrows-up' },
+  ]} />
+
+  <Integrations tagline="Integrations" title="Platforms and infrastructure" columns={4} items={[
+    { name: 'Astro', description: 'Publishing engine', icon: 'tabler:brand-astro' },
+    { name: 'Vercel', description: 'Deployment', icon: 'tabler:brand-vercel' },
+    { name: 'GitHub', description: 'Source of truth', icon: 'tabler:brand-github' },
+    { name: 'Notion', description: 'Editorial planning', icon: 'tabler:notebook' },
+  ]} />
+
+  <Comparison tagline="Comparison" title="A factual comparison matrix" subtitle="Production comparisons should only contain sourced facts." mode="features" firstColumnLabel="Capability" columns={[{ title: 'White-label model', highlight: true }, { title: 'Build from scratch' }]} rows={[
+    { label: 'Existing core platform', values: [true, false] },
+    { label: 'Partner owns distribution', values: ['Possible', 'Yes'] },
+    { label: 'Development required', values: ['Lower', 'Higher'] },
+    { label: 'Infrastructure ownership', values: ['Provider', 'Operator'] },
+  ]} />
+
+  <Pricing tagline="Pricing" title="Pricing-card visualisation" subtitle="Illustrative only — useful when a provider publishes real tiers or economics." currency="SEK " prices={[
+    { title: 'Demo A', subtitle: 'Illustrative', price: 0, period: '/mo', items: [{ description: 'Not a real offer' }], callToAction: { text: 'Example', href: '#pricing' } },
+    { title: 'Demo B', subtitle: 'Illustrative', price: 499, period: '/mo', highlight: true, hasRibbon: true, ribbonTitle: 'demo', items: [{ description: 'Shows highlighted plan styling' }], callToAction: { text: 'Example', href: '#pricing' } },
+    { title: 'Demo C', subtitle: 'Illustrative', price: 999, period: '/mo', items: [{ description: 'Shows a third tier' }], callToAction: { text: 'Example', href: '#pricing' } },
+  ]} />
+
+  <Projects tagline="Projects" title="Directory-style cards with tags and outcomes" columns={3} items={[
+    { title: 'Opportunity example', description: 'Card treatment for a business opportunity.', image: { src: imgA, alt: 'Opportunity example' }, tags: ['START', 'White label'], result: 'Demo result', href: '/start/' },
+    { title: 'Build example', description: 'Card treatment for infrastructure.', image: { src: imgB, alt: 'Build example' }, tags: ['BUILD', 'API'], result: 'Demo result', href: '/build/' },
+    { title: 'Learn example', description: 'Card treatment for a learning path.', image: { src: imgC, alt: 'Learn example' }, tags: ['LEARN', 'Path'], result: 'Demo result', href: '/learn/' },
+  ]} />
+
+  <Gallery tagline="Gallery" title="Image grid + native lightbox" columns={3} images={[
+    { src: imgA, alt: 'Business discussion', caption: 'Opportunity discovery' },
+    { src: imgB, alt: 'Planning session', caption: 'Go-to-market planning' },
+    { src: imgC, alt: 'Team collaboration', caption: 'Distribution and execution' },
+  ]} />
+
+  <Quote quote="The best Vebpartner pages should make the commercial structure understandable in seconds, then let the reader verify the source." name="Component lab principle" job="Design placeholder — not a customer testimonial" logo="tabler:quote" />
+
+  <Testimonials tagline="Testimonials" title="Proof-card treatment" subtitle="These are placeholders only so we can judge the component visually." testimonials={[
+    { testimonial: 'Example testimonial text showing the compact card treatment.', name: 'Placeholder', job: 'Demo only', rating: 5 },
+    { testimonial: 'A second placeholder with a different text length so the grid can be evaluated.', name: 'Placeholder', job: 'Demo only', rating: 5 },
+    { testimonial: 'No production page should use invented testimonials.', name: 'Placeholder', job: 'Demo only', rating: 5 },
+  ]} />
+
+  <QuickStart tagline="QuickStart" title="Command / implementation block" subtitle="Probably more useful for BUILD than START, but this shows the native component." commands={[{ command: 'npm create astro@latest', comment: 'Example command only' }, 'npm run dev']} items={[
+    { title: 'Fast', description: 'Compact implementation summary.', icon: 'tabler:bolt' },
+    { title: 'Copyable', description: 'Native copy interaction.', icon: 'tabler:copy' },
+    { title: 'Technical', description: 'Best suited to BUILD pages.', icon: 'tabler:terminal' },
+  ]} note="Demonstration component — no command is required for the Vebpartner opportunity itself." />
+
+  <FAQs tagline="FAQ" title="Accordion component" defaultOpen={-1} items={[
+    { title: 'Is every component meant for every page?', description: 'No. This lab intentionally overuses them so we can choose the strongest subset.' },
+    { title: 'Will demo data be published as factual data?', description: 'No. Production pages remain source-backed.' },
+    { title: 'What happens after this review?', description: 'We select the components that make START pages clearer and remove the rest.' },
+  ]} />
+
+  <Newsletter tagline="Newsletter" title="Low-friction capture component" subtitle="Visual demo only; no backend is connected." placeholder="you@company.com" button="Demo subscribe" disclaimer="Component preview only. This form is not connected to an email service." />
+
+  <Contact tagline="Contact" title="Full form component" subtitle="Another native conversion pattern. The form is intentionally not connected." inputs={[{ type: 'text', name: 'name', label: 'Name' }, { type: 'email', name: 'email', label: 'Email' }]} textarea={{ label: 'Message' }} disclaimer={{ label: 'Component preview only — do not submit personal information.' }} description="No backend is connected on this component-lab page." />
+
+  <CallToAction layout="banner" tagline="Banner CTA" title="This is the full AstroWind palette" subtitle="The point of this page is to decide what belongs in the real Vebpartner templates — not to use everything at once." actions={[{ variant: 'primary', text: 'Back to PosBytz', href: '/start/posbytz/' }, { text: 'START index', href: '/start/' }]} />
+
+  <CallToAction tagline="Card CTA" title="A second native CTA treatment" subtitle="Useful when the full-width banner would be too strong." actions={[{ variant: 'primary', text: 'Explore START', href: '/start/' }]} />
+
+  <StickyCTA label="Component lab" text="Back to PosBytz" href="/start/posbytz/" showAfter={900} />
+</Layout>

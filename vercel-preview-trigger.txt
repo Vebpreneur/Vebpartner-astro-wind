@@ -1,0 +1,3 @@
+Vebpartner preview trigger
+
+This file exists only to trigger the first Vercel preview deployment for the approved publishing-foundation branch. It can be removed after preview verification.

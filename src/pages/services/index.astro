@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+const entries = await getCollection('services', ({ data }) => data.status === 'published' && !data.draft);
+const items = entries.map(({ data }) => ({ title: data.title, description: data.excerpt, icon: 'tabler:settings', callToAction: { text: 'Explore service', href: `/services/${data.slug}/` } }));
+const metadata = { title: 'Vebpartner Services', description: 'Service models, providers and infrastructure for delivering commercial digital services.', canonical: '/services/' };
+---
+<PageLayout metadata={metadata}>
+  <Hero tagline="Vebpartner Services" title="Deliver services with leverage" subtitle="Explore service models and provider infrastructure designed to reduce unnecessary operational complexity." />
+  {items.length > 0 && <Features tagline="Service resources" title="Explore services" columns={2} items={items} />}
+</PageLayout>
