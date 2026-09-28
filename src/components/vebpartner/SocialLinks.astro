@@ -1,0 +1,6 @@
+---
+export interface SocialLink { label: string; href: string }
+export interface Props { links?: SocialLink[] }
+const { links = [] } = Astro.props;
+---
+{links.length > 0 && <nav aria-label="Vebpartner social profiles"><ul class="flex flex-wrap gap-4 text-sm">{links.map((link) => <li><a class="text-muted hover:text-primary hover:underline" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>)}</ul></nav>}
