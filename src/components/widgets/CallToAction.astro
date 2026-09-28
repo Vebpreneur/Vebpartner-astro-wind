@@ -26,6 +26,8 @@ const {
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+const media = await Astro.slots.render('media');
 ---
 
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
@@ -48,6 +50,7 @@ const {
         ...((classes?.headline as Record<string, string>) ?? {}),
       }}
     />
+    {media && <div class="mt-6 flex justify-center"><Fragment set:html={media} /></div>}
     {
       actions && (
         <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6">
