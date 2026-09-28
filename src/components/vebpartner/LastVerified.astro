@@ -1,0 +1,6 @@
+---
+export interface Props { date: string }
+const { date } = Astro.props;
+const formatted = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+---
+<p class="text-sm text-muted">Last verified: <time datetime={date} class="font-medium text-default">{formatted}</time></p>
