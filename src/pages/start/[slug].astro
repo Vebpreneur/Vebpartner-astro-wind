@@ -18,65 +18,61 @@ const d = entry.data;
 const canonicalPath = `/start/${d.slug}`;
 const providerOrigin = new URL(d.sourceUrl).origin;
 const providerFavicon = `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(providerOrigin)}&sz=128`;
+const providerLogoHtml = `<a href="${d.sourceUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open ${d.provider} official partner program" class="inline-flex mb-6 rounded-xl p-2 transition-transform hover:scale-105"><img src="${providerFavicon}" alt="${d.provider} logo" width="96" height="96" class="h-20 w-20 rounded-2xl object-contain md:h-24 md:w-24" loading="eager" referrerpolicy="no-referrer" /></a>`;
 
 const metadata = { title: d.seoTitle ?? d.title, description: d.seoDescription ?? d.description, canonical: canonicalPath, openGraph: { type: 'website' } };
-
 const facts = [
-  { title: 'Provider', description: d.provider, icon: 'tabler:building-store' },
-  { title: 'Business model', description: d.businessModel, icon: 'tabler:briefcase' },
   { title: 'White label', description: d.whiteLabel ? 'Yes' : 'No', icon: 'tabler:tag' },
   { title: 'Own pricing', description: d.ownPricing ? 'Yes' : 'No', icon: 'tabler:currency-dollar' },
   { title: 'Customer relationship', description: d.customerRelationship ? 'Partner managed' : 'Provider managed', icon: 'tabler:users' },
   { title: 'Hosting & updates', description: d.providerManagedHosting && d.providerManagedUpdates ? 'Provider managed' : 'Check current terms', icon: 'tabler:cloud-check' },
 ];
-
 const modelItems = [
-  { title: 'Sell under your own brand', description: 'The partner model is designed for businesses that want to take a POS and business-management offer to market under their own identity.', icon: 'tabler:brand-appstore' },
-  { title: 'Control your pricing', description: 'Partners can set their own customer pricing and build their own commercial model around the underlying platform.', icon: 'tabler:receipt' },
-  { title: 'Own the customer relationship', description: 'The commercial relationship remains with the partner while PosBytz supplies the underlying platform.', icon: 'tabler:users-group' },
-  { title: 'Provider-managed infrastructure', description: 'Hosting and product updates are handled by the underlying provider, reducing the infrastructure a partner needs to operate.', icon: 'tabler:server' },
+  { title: 'Sell under your own brand', description: 'Take a POS and business-management offer to market under your own identity.', icon: 'tabler:brand-appstore' },
+  { title: 'Control your pricing', description: 'Set customer pricing and build your own commercial model around the underlying platform.', icon: 'tabler:receipt' },
+  { title: 'Own the customer relationship', description: 'Keep the commercial relationship while PosBytz supplies the underlying platform.', icon: 'tabler:users-group' },
+  { title: 'Provider-managed infrastructure', description: 'Hosting and product updates are handled by the underlying provider.', icon: 'tabler:server' },
 ];
-
-const structuredData = {
-  '@context': 'https://schema.org', '@type': 'WebPage', name: d.title, description: d.description,
-  url: new URL(canonicalPath, 'https://vebpartner.se').toString(), datePublished: d.publishedAt,
-  dateModified: d.updatedAt ?? d.lastVerifiedAt, about: { '@type': 'Organization', name: d.provider, url: d.sourceUrl },
-};
+const structuredData = { '@context': 'https://schema.org', '@type': 'WebPage', name: d.title, description: d.description, url: new URL(canonicalPath, 'https://vebpartner.se').toString(), datePublished: d.publishedAt, dateModified: d.updatedAt ?? d.lastVerifiedAt, about: { '@type': 'Organization', name: d.provider, url: d.sourceUrl } };
 ---
 
 <PageLayout metadata={metadata}>
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(structuredData)} /></Fragment>
 
-  <Hero badge={d.category} tagline="Vebpartner Start" title={d.title} subtitle={d.excerpt} actions={[
+  <Hero tagline="Vebpartner Start" title={d.title} subtitle={d.excerpt} content={providerLogoHtml} actions={[
     { variant: 'primary', text: 'Official partner program', href: d.sourceUrl, target: '_blank', icon: 'tabler:external-link' },
-    { text: 'Explore the model', href: '#opportunity' },
+    { text: 'Explore opportunity', href: '#opportunity' },
   ]} />
 
-  <Features id="facts" tagline="Quick facts" title="Opportunity at a glance" subtitle={`Key characteristics of the ${d.provider} partner model.`} columns={3} items={facts} />
+  <Features id="facts" tagline="Business model" title="A white-label route to market" subtitle="The commercial layer stays with you while the underlying product infrastructure is supplied by PosBytz." columns={4} items={facts} />
 
-  <Content id="opportunity" tagline="The opportunity" title="Launch the offer without building the core platform" items={[
-    { title: 'Focus on distribution', description: 'Build positioning, sales and customer relationships instead of developing the entire POS stack internally.' },
-    { title: 'Create recurring software revenue', description: 'The model can support recurring customer revenue while the provider operates the underlying product infrastructure.' },
+  <Content id="opportunity" tagline="The opportunity" title="Build distribution instead of rebuilding the software" items={[
+    { title: 'Focus on the market', description: 'Put effort into positioning, sales and customer acquisition rather than developing the entire POS stack.' },
+    { title: 'Create recurring software revenue', description: 'Package the platform into your own customer offer and build recurring relationships around it.' },
   ]}>
-    <Fragment slot="content"><p>PosBytz offers a partner model for businesses that want to sell a POS and business-management platform under their own brand. The technology layer and the commercial layer are separated: PosBytz provides the hosted platform while the partner focuses on the market and its customers.</p></Fragment>
+    <Fragment slot="content"><p>PosBytz offers a partner model for businesses that want to sell a POS and business-management platform under their own brand. PosBytz provides the hosted technology layer while the partner focuses on its market, proposition and customers.</p></Fragment>
   </Content>
 
-  <Features tagline="Partner model" title="What the model is designed to provide" subtitle="The commercial layer stays with the partner while the underlying product is supplied by PosBytz." columns={2} items={modelItems} />
+  <Features tagline="Partner model" title="What you control — and what the provider handles" subtitle="A practical separation between distribution and infrastructure." columns={2} items={modelItems} />
 
-  <Steps tagline="How it works" title="From partner program to customer offer" items={[
-    { title: 'Step 1: <span class="font-medium">Review the official program</span>', description: 'Verify the current partner terms, product scope and eligibility directly with PosBytz.', icon: 'tabler:file-search' },
-    { title: 'Step 2: <span class="font-medium">Define your market</span>', description: 'Choose the merchant segment, positioning and commercial model you intend to own.', icon: 'tabler:target-arrow' },
-    { title: 'Step 3: <span class="font-medium">Brand and price the offer</span>', description: 'Use the white-label model to create the customer-facing proposition under your own brand.', icon: 'tabler:tag' },
-    { title: 'Step 4: <span class="font-medium">Build the customer base</span>', description: 'Focus operational effort on distribution and customer relationships while the platform provider handles its infrastructure.', icon: 'tabler:users-plus' },
+  <CallToAction layout="banner" title="The leverage is in distribution" subtitle="Use an existing platform as infrastructure and concentrate your resources on brand, market access and customer relationships." actions={[
+    { variant: 'primary', text: 'Review official program', href: d.sourceUrl, target: '_blank', icon: 'tabler:external-link' },
   ]} />
 
-  <Content tagline="Who it may suit" title="A model for businesses with distribution or a route to market" items={[
-    { title: 'SaaS operators', description: 'Operators looking to add a branded POS or business-software offer.' },
+  <Steps tagline="How it works" title="From partner program to customer offer" items={[
+    { title: 'Step 1: <span class="font-medium">Review the official program</span>', description: 'Verify current partner terms, product scope and eligibility directly with PosBytz.', icon: 'tabler:file-search' },
+    { title: 'Step 2: <span class="font-medium">Define your market</span>', description: 'Choose the merchant segment, positioning and commercial model you intend to own.', icon: 'tabler:target-arrow' },
+    { title: 'Step 3: <span class="font-medium">Brand and price the offer</span>', description: 'Use the white-label model to create the customer-facing proposition under your own brand.', icon: 'tabler:tag' },
+    { title: 'Step 4: <span class="font-medium">Build the customer base</span>', description: 'Focus on distribution and customer relationships while the provider operates the platform infrastructure.', icon: 'tabler:users-plus' },
+  ]} />
+
+  <Content tagline="Who it may suit" title="Best aligned with an existing or credible route to market" items={[
+    { title: 'SaaS operators', description: 'Businesses looking to add a branded POS or business-software offer.' },
     { title: 'IT providers', description: 'Providers already serving merchants or small and medium-sized businesses.' },
-    { title: 'Digital agencies', description: 'Agencies that can package software together with existing digital services.' },
-    { title: 'Entrepreneurs', description: 'Operators who can build distribution without first developing a complete software platform.' },
+    { title: 'Digital agencies', description: 'Agencies able to package software together with existing digital services.' },
+    { title: 'Entrepreneurs', description: 'Operators able to build distribution without first developing a complete software platform.' },
   ]}>
-    <Fragment slot="content"><p>Relevance depends on your market, customer acquisition capability and the provider's current terms. Vebpartner does not operate the PosBytz program and does not replace the provider's official information.</p></Fragment>
+    <Fragment slot="content"><p>Fit depends on your market, customer acquisition capability and the provider's current terms. Vebpartner does not operate the PosBytz program and does not replace the provider's official information.</p></Fragment>
   </Content>
 
   <CallToAction title="Review the current PosBytz partner program" subtitle={`Official source · Last verified ${d.lastVerifiedAt}`} actions={[
