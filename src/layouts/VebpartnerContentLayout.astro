@@ -1,0 +1,33 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import StructuredData from '~/components/common/StructuredData.astro';
+import Brand, { type Vertical } from '~/components/vebpartner/Brand.astro';
+import Breadcrumbs, { type BreadcrumbItem } from '~/components/vebpartner/Breadcrumbs.astro';
+import SocialLinks from '~/components/vebpartner/SocialLinks.astro';
+import EcosystemLinks from '~/components/vebpartner/EcosystemLinks.astro';
+import PoweredByVebpartner from '~/components/vebpartner/PoweredByVebpartner.astro';
+
+export interface Props {
+  vertical: Vertical;
+  title: string;
+  description: string;
+  canonicalPath: string;
+  breadcrumbs: BreadcrumbItem[];
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+const { vertical, title, description, canonicalPath, breadcrumbs, structuredData = [] } = Astro.props;
+const canonical = new URL(canonicalPath, 'https://vebpartner.se').toString();
+const breadcrumbSchema = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.label, item: item.href ? new URL(item.href, 'https://vebpartner.se').toString() : canonical })),
+};
+const schema = [breadcrumbSchema, ...(Array.isArray(structuredData) ? structuredData : [structuredData])];
+const metadata = { title, description, canonical, openGraph: { url: canonical, type: 'website' } };
+---
+<PageLayout metadata={metadata}>
+  <Fragment slot="announcement" />
+  <StructuredData slot="head" schema={schema} />
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 pt-8"><div class="flex flex-col gap-5"><Brand vertical={vertical} /><Breadcrumbs items={breadcrumbs} /></div></div>
+  <slot />
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 pb-10 pt-12"><div class="flex flex-col gap-5 border-t border-gray-200 pt-7 dark:border-slate-800"><EcosystemLinks /><SocialLinks /><PoweredByVebpartner /></div></section>
+</PageLayout>
