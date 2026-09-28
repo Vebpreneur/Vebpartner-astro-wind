@@ -3,7 +3,6 @@ site:
   site: 'https://vebpartner.se'
   base: '/'
   trailingSlash: false
-  googleSiteVerificationId: null
 
 metadata:
   title:
