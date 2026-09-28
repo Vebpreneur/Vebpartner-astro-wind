@@ -79,14 +79,12 @@ const structuredData = {
     <Fragment slot="content"><p>Relevance depends on your market, customer acquisition capability and the provider's current terms. Vebpartner does not operate the PosBytz program and does not replace the provider's official information.</p></Fragment>
   </Content>
 
-  <div class="mx-auto -mb-4 flex max-w-7xl justify-center px-4 pt-10 sm:px-6 md:pt-14">
-    <a href={d.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${d.provider} official partner program`} class="inline-flex rounded-xl p-3 transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-      <img src={providerFavicon} alt={`${d.provider} logo`} width="96" height="96" loading="lazy" referrerpolicy="no-referrer" class="h-20 w-20 rounded-2xl object-contain md:h-24 md:w-24" />
-    </a>
-  </div>
-
   <CallToAction title="Review the current PosBytz partner program" subtitle={`Official source · Last verified ${d.lastVerifiedAt}`} actions={[
     { variant: 'primary', text: d.sourceLabel, href: d.sourceUrl, target: '_blank', icon: 'tabler:external-link' },
     { text: 'Back to Vebpartner Start', href: '/start/' },
-  ]} />
+  ]}>
+    <a slot="media" href={d.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${d.provider} official partner program`} class="inline-flex rounded-xl p-2 transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+      <img src={providerFavicon} alt={`${d.provider} logo`} width="96" height="96" loading="lazy" referrerpolicy="no-referrer" class="h-20 w-20 rounded-2xl object-contain md:h-24 md:w-24" />
+    </a>
+  </CallToAction>
 </PageLayout>
